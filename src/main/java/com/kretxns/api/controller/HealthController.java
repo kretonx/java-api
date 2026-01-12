@@ -3,10 +3,8 @@ package com.kretxns.api.controller;
 import com.kretxns.api.dto.CreateAccountRequest;
 import com.kretxns.api.model.Account;
 import com.kretxns.api.service.AccountService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 public class HealthController {
@@ -15,6 +13,10 @@ public class HealthController {
 
     public HealthController(AccountService accountService) {
         this.accountService = accountService;
+    }
+    @GetMapping("/accounts/{id}")
+    public Account getAccount(@PathVariable long id){
+        return accountService.getAccountById(id);
     }
 
     @GetMapping("/health")

@@ -9,6 +9,9 @@ import java.util.Map;
 
 
 public class AccountService {
+    public Account getAccountById(long id){
+        return accounts.get(id);
+    }
     private final Map<Long, Account> accounts = new HashMap<>();
     private long nextId =1;
 
