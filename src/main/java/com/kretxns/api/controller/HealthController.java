@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.ResponseEntity;
-
+import java.util.Collection;
 
 @RestController
 public class HealthController {
@@ -26,6 +26,10 @@ public class HealthController {
         }
 
         return ResponseEntity.ok(account);
+    }
+    @GetMapping("/accounts")
+    public Collection<Account> getAllAccounts(){
+        return accountService.getAllAccounts();
     }
 
     @GetMapping("/health")
