@@ -1,6 +1,7 @@
 package com.kretxns.api.controller;
 
 import com.kretxns.api.dto.CreateAccountRequest;
+import com.kretxns.api.dto.DepositRequest;
 import com.kretxns.api.model.Account;
 import com.kretxns.api.service.AccountService;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.ResponseEntity;
 import java.util.Collection;
+import com.kretxns.api.dto.DepositRequest;
+import com.kretxns.api.dto.WithdrawRequest;
 
 @RestController
 public class HealthController {
@@ -41,4 +44,41 @@ public class HealthController {
     public Account createAccount(@RequestBody CreateAccountRequest request) {
         return accountService.createAccount(request.titular);
     }
+
+    @PostMapping("/accounts/{id}/deposit")
+    public ResponseEntity<Account> deposit(
+            @PathVariable long id,
+            @RequestBody DepositRequest request
+            ){
+        try{
+            Account updated = accountService.deposit(id, request.valor);
+
+            if (updated == null){
+                return ResponseEntity.notFound().build();
+            }
+
+            return ResponseEntity.ok(updated);
+        } catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+    @PostMapping("/accounts/{id}/withdraw")
+    public ResponseEntity<Account> withdraw(
+            @PathVariable long id,
+            @RequestBody WithdrawRequest request
+    ) {
+        try {
+            Account updated = accountService.withdraw(id, request.valor);
+
+            if (updated == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            return ResponseEntity.ok(updated);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+
 }
